@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>business</title>
+    <style>
+        .center{
+            text-align: center;
+        }
+        .shade{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: black;
+            opacity: 0.6;
+            z-index: 10;
+        }
+        .add-host{
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            width: 400px;
+            height: 300px;
+            background: white;
+            margin-left: -200px;
+            z-index: 11;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>部门列表</h1>
+    <ul>
+        {% for i in v1 %}
+            <li>{{ i.id}}-{{ i.caption}}</li>
+        {% endfor %}
+    </ul>
+<h1>主机列表</h1>
+<input type="button" value="添加" id="add_host">
+<table border="1">
+    <thead>
+        <th>主机名</th>
+        <th>IP</th>
+        <th>端口</th>
+        <th>部门</th>
+    </thead>
+    <tbody>
+        {% for i in h1 %}
+        <tr host_id="{{ i.nid }}" business_id="{{ i.b.id }}">
+            <td>{{ i.hostname }}</td>
+            <td>{{ i.ipv4 }}</td>
+            <td>{{ i.port }}</td>
+            <td>{{ i.b.caption }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="shade hide"></div>
+<div class="add-host hide">
+    <form method="POST" action="/business">
+        <p>
+            <div style="text-align: center" ><input id="host" name="hostname" type="text" placeholder="主机名"></div>
+        </p>
+        <p>
+            <div style="text-align: center" ><input id="ip" name="ip" type="text" placeholder="IP" ></div>
+        </p>
+        <p>
+            <div style="text-align: center" ><input id="port" name="port" type="text" placeholder="端口" ></div>
+        </p>
+        <p style="margin-left: 237px">
+            <select id='sel' name="b_id">
+                {% for i in v1 %}
+                    <option value="{{ i.id }}">{{ i.caption }}</option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p style="margin-left: 200px">
+            <input  type="button" value="提交">
+            <a id='ajax_submit'>提交</a>
+            <input type="button" value="取消" id="cancel">
+        </p>
+
+
+    </form>
+</div>
+<script src="/static/jquery-3.3.1.js"></script>
+<script>
+    $(function () {
+        $('#add_host').click(function () {
+            $('.shade,.add-host').removeClass('hide')
+        })
+        $('#cancel').click(function () {
+            $('.shade,.add-host').addClass('hide')
+        })
+        $('#ajax_submit').click(function () {
+            $.ajax({
+            url:'/test_ajax',
+            type:'POST',
+            data:{'host':$('#host').val(),'ip':$('#ip').val(),'port':$('#port').val(),'b_id':$('#sel').val()},
+            success:function (data) {
+                if(data=='OK'){
+                    location.reload()
+                }else{
+                    alert(data)
+                }
+            }
+        })
+        })
+
+    })
+</script>
+</body>
+</html>

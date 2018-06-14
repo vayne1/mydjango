@@ -1,0 +1,148 @@
+{% extends 'master.html' %}
+{% block ti %}<title>host</title>{% endblock%}
+{% block content %}
+    <input type="button" value="添加" id="add_host">
+
+    <select id='choose'>
+                <option value="0">全部</option>
+                {% for i in project_name %}
+                    <option value="{{ i.id }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+
+
+    <table border="1">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>实例名</th>
+            <th>地区</th>
+            <th>外网IP</th>
+            <th>内网IP</th>
+            <th>操作系统</th>
+            <th>CPU核数</th>
+            <th>内存</th>
+            <th>带宽</th>
+            <th>磁盘</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="all_tr">
+        {% for i in all_info %}
+            <tr>
+                <td style="display: none">{{ i.cloud_id }}</td>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.instance_name }}</td>
+                <td>{{ i.area }}</td>
+                <td>{{ i.outside_ip }}</td>
+                <td>{{ i.inside_ip }}</td>
+                <td>{{ i.system }}</td>
+                <td>{{ i.cpu_num }}</td>
+                <td>{{ i.ram }}</td>
+                <td>{{ i.bandwidth }}</td>
+                <td>{{ i.risk }}</td>
+                <td><a href="/cmdb/host/detail-{{ i.id }}.html">详情</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+<div class="shade hide"></div>
+<div class="add-host hide">
+    <form method="POST" action="/cmdb/host/">
+        {% csrf_token %}
+        <p>
+            <div class="center" ><input id="instance" name="instance_name" type="text" placeholder="主机名"></div>
+        </p>
+        <p>
+            <div class="center" ><input id="area" name="area" type="text" placeholder="地区" ></div>
+        </p>
+        <p>
+            <div class="center" ><input id="outer_ip" name="outer_ip" type="text" placeholder="外网IP" ></div>
+        </p>
+        <p>
+            <div class="center" ><input id="inter_ip" name="inter_ip" type="text" placeholder="内网IP" ></div>
+        </p>
+        <p>
+            <div class="center" ><input id="system" name="system" type="text" placeholder="操作系统" ></div>
+        </p>
+        <p>
+            <div class="center" ><input id="cpu" name="cpu" type="text" placeholder="CPU核数" ></div>
+        </p>
+        <p>
+            <div class="center" ><input id="ram" name="ram" type="text" placeholder="内存" ></div>
+        </p>
+        <p>
+            <div class="center" ><input id="band" name="band" type="text" placeholder="带宽" ></div>
+        </p>
+        <p>
+            <div class="center" ><input id="risk" name="risk" type="text" placeholder="磁盘" ></div>
+        </p>
+        <p>
+{#            <div class="center"><input  id="user" name="user" type="text" placeholder="用户格式：user/password"></div>#}
+            <div class="center"><textarea name="user" placeholder="用户信息"></textarea></div>
+        </p>
+        <p>
+{#            <div class="center" ><input  id="soft" name="soft" type="text" placeholder="软件格式：soft:user/password," ></div>#}
+            <div class="center"><textarea name="soft" placeholder="软件信息"></textarea></div>
+        </p>
+        <p style="margin-left: 223px">
+            <select id='sel' name="c_id">
+                {% for i in project_name %}
+                    <option value="{{ i.id }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p style="margin-left: 195px">
+            <input  type="submit" value="提交">
+            <input type="button" value="取消" id="cancel">
+        </p>
+    </form>
+</div>
+{%endblock%}
+
+{% block js %}
+    <script>
+    $(function () {
+        $('#add_host').click(function () {
+            $('.shade,.add-host').removeClass('hide')
+        })
+        $('#cancel').click(function () {
+            $('.shade,.add-host').addClass('hide')
+        })
+        $('#choose').change(function () {
+            {#            $.ajax({#}
+            {#                url:'/cmdb/host/',#}
+            {#                type:'GET',#}
+            {#                data:{'cloud_id':$('#choose').val()},#}
+            {#                success:function (data) {#}
+            {#                    location.reload()#}
+            {#                }#}
+            {#            })#}
+            var select_id = $('#choose').val()
+            console.log(select_id)
+            if (select_id == 0) {
+                console.log($('#all_tr').children())
+                $('#all_tr').children().removeClass('hide')
+
+            }
+            else{
+                var trs = $('#all_tr').children()
+                {#            console.log(select_id,trs)#}
+                $.each(trs, function (i, item) {
+
+                    var type_id = $(item).children()[0].innerText
+                    if (type_id == select_id) {
+                        $(item).removeClass('hide')
+                    }
+                    else {
+                        $(item).addClass('hide')
+                    }
+
+                })
+            }
+        })
+    })
+
+</script>
+{%endblock%}

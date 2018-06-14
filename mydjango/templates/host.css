@@ -1,0 +1,71 @@
+body{
+    margin: 0;
+}
+
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.page-header{
+    height: 48px;
+    background-color: #AAAAAA;
+    line-height: 48px;
+}
+.page-content .menu{
+    position: fixed;
+    top: 48px;
+    left: 0;
+    width: 170px;
+    bottom: 0;
+    background-color: cornflowerblue;
+}
+.page-content .menu .select{
+    height: 40px;
+    width: 170px;
+    background-color: #AAAAAA;
+    text-align: center;
+    line-height: 40px;
+}
+.page-content .menu .select:hover{
+    background-color: #ff9229;
+}
+.page-content .content{
+    position: fixed;
+    left: 175px;
+    top:50px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
+
+
+
+.center{
+    text-align: center;
+}
+.shade{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    opacity: 0.6;
+    z-index: 10;
+}
+.add-host{
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    width: 400px;
+    height: 575px;
+    background: white;
+    margin-left: -200px;
+    z-index: 11;
+}
+.hide{
+    display: none;
+}

@@ -1,0 +1,119 @@
+{% extends 'master.html' %}
+    <meta charset="UTF-8">
+    {% block ti %}<title>详细信息</title>{% endblock%}
+    {% block content %}
+    {% for i in alone_info %}
+        <h2>{{ i.instance_name }}</h2>
+        <input type="button" value="编辑" id="edit_host">
+        <input type="button" value="删除" id="delete_host">
+        <div>地区:{{ i.area }}</div>
+        <div>外网IP:{{ i.outside_ip }}</div>
+        <div>内网IP:{{ i.inside_ip }}</div>
+        <div>配置:{{ i.cpu_num }}/{{ i.ram }}/{{ i.bandwidth }}</div>
+        <div>服务商:{{ i.cloud.type }}</div>
+        <div>用户信息:</div>
+        <ol>
+            {% for i in user %}
+                <li>{{ i }}</li>
+             {% endfor %}
+        </ol>
+        <div>软件信息:</div>
+        <ol>
+            {% for i in soft %}
+                <li>{{ i }}</li>
+             {% endfor %}
+        </ol>
+        <div></div>
+<div class="hide"><input id="c_id" value="{{ i.cloud_id }}"></div>
+<div class="shade hide"></div>
+<div class="edit-host hide">
+    <form id='edit_from' method="POST" action="/cmdb/host/detail-{{ i.id }}.html/">
+        {% csrf_token %}
+        <input style="display: none" name="update_id" value="{{ i.id }}">
+        <p>
+            <div class="center" ><input id="instance" name="instance_name" type="text" value="{{ i.instance_name }}"></div>
+        </p>
+        <p>
+            <div class="center" ><input id="area" name="area" type="text" value="{{ i.area }}"></div>
+        </p>
+        <p>
+            <div class="center" ><input id="outer_ip" name="outer_ip" type="text" value="{{ i.outside_ip }}"></div>
+        </p>
+        <p>
+            <div class="center" ><input id="inter_ip" name="inter_ip" type="text" value="{{ i.inside_ip }}"></div>
+        </p>
+        <p>
+            <div class="center" ><input id="system" name="system" type="text" value="{{ i.system }}"></div>
+        </p>
+        <p>
+            <div class="center" ><input id="cpu" name="cpu" type="text" value="{{ i.cpu_num }}"></div>
+        </p>
+        <p>
+            <div class="center" ><input id="ram" name="ram" type="text" value="{{ i.ram }}"></div>
+        </p>
+        <p>
+            <div class="center" ><input id="band" name="band" type="text" value="{{ i.bandwidth }}"></div>
+        </p>
+        <p>
+            <div class="center" ><input id="risk" name="risk" type="text" value="{{ i.risk }}"></div>
+        </p>
+        <p>
+            <div class="center"><textarea name="user">{{ i.user }}</textarea></div>
+        </p>
+        <p>
+            <div class="center"><textarea name="soft">{{ i.soft }}</textarea></div>
+        </p>
+        <p style="margin-left: 223px">
+            <select id='sel' name="c_id">
+                {% for i in project_name %}
+                    <option value="{{ i.id }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p style="margin-left: 195px">
+            <input  type="submit" value="提交">
+            <input type="button" value="取消" id="cancel">
+        </p>
+    </form>
+</div>
+    {% endfor %}
+{% endblock %}
+
+
+
+{% block js %}
+<script>
+    $(function () {
+            $('#edit_host').click(function () {
+                $('.shade,.edit-host').removeClass('hide')
+                var c_id = $('#c_id').val()
+                $('#edit_from').find('select').val(c_id)
+            });
+            $('#cancel').click(function () {
+                $('.shade,.edit-host').addClass('hide')
+            });
+            var csrftoken = $.cookie('csrftoken');
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+
+                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
+
+                            }
+            });
+
+            $('#delete_host').click(function () {
+                var id = $('input[name="update_id"]').val()
+                $.ajax({
+                    url:'/cmdb/host/detail-'+id+'.html/',
+                    type:'POST',
+                    data:{'num':id,'delete':true},
+                    success:function (data) {
+                        if(data=='delete'){
+                            window.location.href='/cmdb/host'
+                        }
+                    }
+                })
+            })
+        })
+ </script>
+{% endblock %}

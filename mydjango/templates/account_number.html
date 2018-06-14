@@ -1,0 +1,95 @@
+{% extends 'master.html' %}
+{% block ti %}<title>账号信息</title>{% endblock %}
+{% block content %}
+    <ol>
+    {% for i in all_account %}
+        <p>
+            <li>
+                <ul>
+                    <li>{{ i.species }}</li>
+                    <li>账号：{{ i.acc_mum }}</li>
+                    <li>密码：{{ i.pwd }}</li>
+                </ul>
+            </li>
+        </p>
+    {% endfor %}
+    </ol>
+    <div class="shade hide"></div>
+    <div class="add-account hide">
+        <form id="form">
+            <input type="text" value="add" name="status" style="display: none">
+        <p>
+            <div style="margin-left: 100px" ><input name="species" type="text" placeholder="账号类型"></div>
+        </p>
+        <p>
+            <div style="margin-left: 100px"><input name="acc_mum" type="text" placeholder="账号名"></div>
+        </p>
+        <p>
+            <div style="margin-left: 100px"><input name="pwd" type="text" placeholder="密码"></div>
+        </p>
+        <p style="margin-left: 195px">
+            <input  type="button" value="提交" id="submit">
+            <input type="button" value="取消" id="cancel">
+        </p>
+        </form>
+    </div>
+{% endblock %}
+
+{% block bottom %}
+    <div style="width: 200px;height: 30px;float: right;margin-right: 100px;line-height: 30px">
+        <div style="width: 100px;height: 30px;float: left;text-align: center">
+            <input type="button" value="添加" id="add_account">
+        </div>
+        <div style="width: 100px;height: 30px;float: right;text-align: center">
+            <input type="button" value="编辑">
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script>
+        $(function () {
+            $('#add_account').click(function () {
+            $('.shade,.add-account').removeClass('hide')
+            });
+            $('#cancel').click(function () {
+            $('.shade,.add-account').addClass('hide')
+            });
+            var csrftoken = $.cookie('csrftoken');
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+
+                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
+
+                            }
+            });
+            $('#submit').click(function () {
+                $('.error_msg').remove();
+                $.ajax({
+                    url:'/cmdb/account_number/',
+                    type:'POST',
+                    dataType:"json",
+                    data:$('#form').serialize(),
+                    success:function (data) {
+                        console.log(data)
+                        if(data=='add'){
+                            window.location.href='/cmdb/account_number'
+                        }
+                        else {
+                            console.log(data)
+                            $.each(data,function (index,value) {
+                            var tag = document.createElement('span');
+                            console.log(value)
+                            tag.innerHTML = value;
+                            tag.className = 'error_msg';
+                            $('#form').find('input[name="'+index+'"]').after(tag);
+                        })
+                        }
+                    }
+                })
+            });
+
+        })
+    </script>
+{% endblock %}

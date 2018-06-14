@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block ti %} {%endblock%}
+    <link href="/static/host.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="page-header">
+        <div style="width: 170px;background-color: #333333" class="left">
+            <img style="margin-top: 4px" src="/static/wsLogo.png">
+        </div>
+
+    </div>
+
+    <div class="page-content">
+        <div class="menu left">
+            <div class="select">
+                <div style="font-size: 14px"><a href="/cmdb/host">阿里云</a></div>
+            </div>
+            <div class="select">
+                <div style="font-size: 14px"><a href="/cmdb/account_number">账号信息</a></div>
+            </div>
+        </div>
+        <div class="content right">
+            {% block content %} {%endblock%}
+
+
+        </div>
+    </div>
+
+    <div class="page-footer">
+        {% block bottom %} {%endblock%}
+    </div>
+<script src="/static/jquery-3.3.1.js"></script>
+<script src="/static/jquery.cookie.js"></script>
+{% block js %} {%endblock%}
+</body>
+</html>

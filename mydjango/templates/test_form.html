@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test_form</title>
+    <style>
+        .c1{
+            font-size: 12px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <form id="f1" action="/testapp/test_form/" method="post">
+        {% csrf_token %}
+        <p><label>用户名：</label><input type="text" name="user"> {{ obj.errors.user.0 }}</p>
+        <p><label>密  码：</label><input type="password" name="pwd"> {{obj.errors.pwd.0 }}</p>
+        <p><label>email：</label><input type="text" name="email">{{ obj.errors.email.0 }}</p>
+        <p><input type="submit" value="提交">
+           <a onclick="submitform();">提交</a>
+        </p>
+
+{#        ---------------------------------------------#}
+{#        {{ obj.as_p }}#}
+{#        ---------------------------------------------#}
+{#        {{ obj.as_ul }}#}
+{#        ---------------------------------------------#}
+{#        <table>{{ obj.as_table }}</table>#}
+    </form>
+    <script src="/static/jquery-3.3.1.js"></script>
+    <script>
+        function submitform() {
+            $('.c1').remove();
+            $.ajax({
+                url:'/testapp/ajax_form/',
+                type:'POST',
+                data:$('#f1').serialize(),
+                dataType:"json",
+                success:function (org) {
+                    console.log(org.msg)
+                    if(org.status){
+
+                    }
+                    else{
+                        $.each(JSON.parse(org.msg),function (index,value) {
+                            var tag = document.createElement('span');
+                            tag.innerHTML = value[0].message;
+                            tag.className = 'c1';
+                            $('#f1').find('input[name="'+index+'"]').after(tag);
+                        })
+                    }
+                }
+
+            })
+        }
+    </script>
+
+</body>
+</html>
