@@ -1,4 +1,9 @@
+#!/usrbin/env python3
+# -*- coding:utf-8 -*-
+
 import json,os,re
+
+#注：命令行并没有不区分大小写的功能，只能小写
 tables = ['staff_table']
 with open('index_info.txt','r') as f:
     index_info = json.loads(f.read())       #每张表的索引以及总列数(除了id列)信息
@@ -7,12 +12,12 @@ column_list = list(column_dict.keys())              #字段列表 ['id', 'name',
 
 
 
-def main_func():
+def main_func():    #主函数
     while True:
         user_input = input('Wangsql>')
         if user_input == 'exit':break
         msg_list = user_input.split()
-        if set(msg_list).intersection(set(tables)):
+        if set(msg_list).intersection(set(tables)):     #判断表名是否正确
             if msg_list[0] == 'add':
                 create(user_input)
             elif msg_list[0] == 'del' and  msg_list[1] == 'from' and  msg_list[3] == 'where':
@@ -89,26 +94,26 @@ def update(user_input):     #修改员工信息表
         print('Query OK, {} row affected'.format(n))
     else:print('\033[31;1m参数错误。\033[0m')
 
-def find(user_input):
-    res_list = []
+def find(user_input):   #匹配查找员工信息
+    res_list = []       #将查找之后的信息添加到列表里
     table_name = user_input.split()[3]  # 表名
     find_msg = user_input.split('where')[1].strip() #enroll_date like "2013"    where后面的判断条件
     symbol = re.search('>=|<=|>|<|=|like',find_msg)
     symbol_list = ['=','<','>','>=','<=']
     if symbol.group() == 'like':
-        column_key = find_msg.split()[0]
-        key_word = eval(find_msg.split()[2])
+        column_key = find_msg.split()[0]        #enroll_date like "2013" 中的enroll_date
+        key_word = eval(find_msg.split()[2])    #enroll_date like "2013" 中的2013
 
         with open('{}.txt'.format(table_name),'r',encoding='utf-8') as f:
             for i in f:
                 tmp_list = i.strip().split(',')
-                reobj = re.search(key_word,tmp_list[column_dict[column_key]])
+                reobj = re.search(key_word,tmp_list[column_dict[column_key]])   #在enroll_date列里匹配带有关键字的行
                 if reobj:
                     res_list.append(tmp_list)
     elif symbol.group() in symbol_list:
-        column_key = find_msg.split(symbol.group())[0].strip()
-        key_word = find_msg.split(symbol.group())[1]
-        if not key_word.isdigit(): key_word = eval(key_word)
+        column_key = find_msg.split(symbol.group())[0].strip()  #where age>22中age
+        key_word = find_msg.split(symbol.group())[1]             #where age>22中22
+        if not key_word.isdigit(): key_word = eval(key_word)    #去掉引号，用户输入为dept="IT"
         with open('{}.txt'.format(table_name), 'r', encoding='utf-8') as f:
             for i in f:
                 tmp_list = i.strip().split(',')
@@ -116,7 +121,7 @@ def find(user_input):
                     if tmp_list[column_dict[column_key]] == key_word:
                         res_list.append(tmp_list)
                 else:
-                    inequality = ''.join([tmp_list[column_dict[column_key]],symbol.group(),str(key_word)])
+                    inequality = ''.join([tmp_list[column_dict[column_key]],symbol.group(),str(key_word)])  #拼接不等式为字符串
                     if eval(inequality):
                         res_list.append(tmp_list)
 
@@ -127,11 +132,15 @@ def find(user_input):
         for i in res_list:
             print(','.join(i))
     else:
-        select_list = user_input.split()[1].split(',')
-        for i in res_list:
-            tmp_list = []
-            for k in select_list:
-                tmp_list.append(i[column_dict[k]])
-            print(','.join(tmp_list))
+        select_list = user_input.split()[1].split(',')      #输入的字段列表： ['name','age']
+        if set(select_list).issubset(set(column_list)):     #判断输入的字段是否全在表的字段中
+            for i in res_list:
+                tmp_list = []
+                for k in select_list:
+                    tmp_list.append(i[column_dict[k]])
+                print(','.join(tmp_list))
+        else:print('\033[31;1m此查询字段不存在\033[0m')
     print('Query OK, {} row affected'.format(len(res_list)))
+
+
 main_func()

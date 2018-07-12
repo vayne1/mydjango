@@ -1,0 +1,12 @@
+2018-12-07 05:40:46 PM wang	shopping cost 1999
+2018-12-07 06:11:58 PM wang	inquire
+2018-12-07 06:27:13 PM wang	withdraw success
+2018-12-07 06:27:33 PM wang	withdraw cash not enough,failed
+2018-12-07 06:46:49 PM wang	transfer 1000 to haha,success
+2018-12-07 06:46:49 PM haha	transfer 1000 from wang,success
+2018-12-07 06:47:38 PM wang	transfer 10000 to haha,success
+2018-12-07 06:47:38 PM haha	transfer 10000 from wang,success
+2018-12-07 06:47:49 PM wang	transfer 1000000000 but salary not enough,failed
+2018-12-07 06:48:57 PM wang	transfer 1000 to haha,success
+2018-12-07 06:48:57 PM haha	transfer 1000 from wang,success
+2018-12-07 06:49:27 PM wang	transfer 10000000 but salary not enough,failed

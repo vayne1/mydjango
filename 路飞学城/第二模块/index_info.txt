@@ -1,0 +1,1 @@
+{"staff_table": {"index": 3, "column": {"id": 0, "name": 1, "age": 2, "phone": 3, "dept": 4, "enroll_date": 5}}}

@@ -48,6 +48,7 @@ status_floor = []
 while True:
     for i in floor:
         print(i)
+        print(floor[i])
     choose = input('input your choice(q退出，r返回上一层):')
     if choose in floor:
         status_floor.append(floor)        #保存所有层的状态
