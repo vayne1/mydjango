@@ -10,3 +10,10 @@
 2018-12-07 06:48:57 PM wang	transfer 1000 to haha,success
 2018-12-07 06:48:57 PM haha	transfer 1000 from wang,success
 2018-12-07 06:49:27 PM wang	transfer 10000000 but salary not enough,failed
+2018-13-07 10:36:29 AM wang	repayment 106,success
+2018-13-07 10:36:39 AM wang	inquire
+2018-13-07 12:31:10 PM admin	create account aaa success
+2018-13-07 01:28:54 PM admin	create account aa success
+2018-13-07 02:06:53 PM admin	frozen haha success
+2018-13-07 02:33:32 PM admin	modify haha amount success
+2018-13-07 03:27:40 PM wang	inquire

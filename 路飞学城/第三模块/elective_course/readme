@@ -1,0 +1,8 @@
+学生账号：student1,student2,student3,student4,student5若干
+老师账号：teacher1，haha
+manager账号：admin
+所有账号密码均为123
+
+启动程序为bin目录下的start.py，
+
+主要代码都在main.py和person.py中。
