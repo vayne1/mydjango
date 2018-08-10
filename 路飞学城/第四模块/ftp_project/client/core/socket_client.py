@@ -158,6 +158,7 @@ class FTP_client:
             return
         self.client.send(cmd.encode(self.coding))
         obj = self.client.recv(4)
+        print(obj)
         header_size = struct.unpack('i', obj)[0]  # 获取报头长度
         header_bytes = self.client.recv(header_size)  # 报头字节
         header_json = header_bytes.decode(self.coding)  # 报头字符串

@@ -1,0 +1,15 @@
+2.查询学生总人数；
+select count(sid) from student;
+3.查询生物课程和物理课程成绩都及格的学生id和姓名；
+
+4.查询每个年级的班级数，取出班级数最多的前三个年级；
+每个年级的班级数：select gname,count(caption)
+                       from class inner join class_grade on class.grade_id=class_grade.gid id
+                       group by gname;
+班级数最多的前三个年级：select gname
+                            from class inner join class_grade on class.grade_id=class_grade.gid
+                                group by gname
+                                    order by count(caption);
+5.查询平均成绩最高和最低的学生的id和姓名以及平均成绩；
+
+

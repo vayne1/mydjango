@@ -1,0 +1,108 @@
+1.创建表
+教师表
+create table teacher(
+    tid int primary key auto_increment,
+    tname char(10) not null
+    );
+
+
+年级表
+create table class_grade(
+    gid int primary key auto_increment,
+    gname char(10) not null
+    );
+
+
+课程表
+create table course(
+    cid int primary key auto_increment,
+    cname char(10) not null,
+    teacher_id int,
+    foreign key(teacher_id) references teacher(tid)
+    on delete cascade
+    on update cascade
+    );
+
+班级表
+create table class(
+    cid int primary key auto_increment,
+    caption char(10) not null,
+    grade_id int,
+    foreign key(grade_id) references class_grade(gid)
+    on delete cascade
+    on update cascade
+    );
+
+学生表
+create table student(
+    sid int primary key auto_increment,
+    sname char(10) not null,
+    gender enum('男','女'),
+    class_id int,
+    foreign key(class_id) references class(cid)
+    on delete cascade
+    on update cascade
+    );
+
+
+成绩表
+create table score(
+    sid int primary key auto_increment,
+    student_id int,
+    course_id int,
+    foreign key(student_id) references student(sid)
+    on delete cascade
+    on update cascade,
+    foreign key(course_id) references course(cid)
+    on delete cascade
+    on update cascade,
+    score int not null
+    );
+班级任职表
+create table teach2cls(
+    tcid int primary key auto_increment,
+    tid int,
+    cid int,
+    foreign key(tid) references teacher(tid)
+    on delete cascade
+    on update cascade,
+    foreign key(cid) references class(cid)
+    on delete cascade
+    on update cascade
+    );
+
+插入数据
+insert into teacher(tname) values('张三'),
+                                 ('李四'),
+                                 ('王五');
+
+insert into course(cname,teacher_id) values('生物',1),
+                                           ('体育',1),
+                                           ('物理',2);
+
+insert into class_grade(gname) values('一年级'),
+                                     ('二年级'),
+                                     ('三年级');
+
+insert into class(caption,grade_id) values('一年一班',1),
+                                          ('二年一班',2),
+                                          ('三年二班',3);
+
+insert into student(sname,gender,class_id) values('乔丹','女',1),
+                                                 ('艾弗森','女',1),
+                                                 ('科比','男',2);
+
+insert into score(student_id,course_id,score) values(1,1,60),
+                                                    (1,2,60),
+                                                    (2,2,99);
+
+
+
+
+insert into teach2cls(tid,cid) values(1,1),
+                                     (1,2),
+                                     (2,1),
+                                     (3,2);
+
+
+
