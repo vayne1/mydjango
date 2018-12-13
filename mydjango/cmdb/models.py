@@ -19,6 +19,9 @@ class host(models.Model):
 class project(models.Model):
     type = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.type
+
 
 class account(models.Model):
     username = models.CharField(max_length=32)

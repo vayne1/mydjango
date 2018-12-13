@@ -143,7 +143,7 @@ class account_form(forms.Form):
     pwd = fields.CharField(error_messages={'required':'不能为空'})
 
 
-
+@auth
 def account(request):
     if request.method == 'GET':
         all_account = models.all_account.objects.all()

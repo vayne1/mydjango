@@ -16,11 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,re_path,include
 from cmdb import views
+from stark.service.stark import site
 
 urlpatterns = [
+    path('stark/',site.urls),
     path('cmdb/',include('cmdb.urls')),
     path('testapp/',include('testapp.urls')),
     path('admin/', admin.site.urls),
     path('',views.login),
+
 ]
 

@@ -1,0 +1,12 @@
+{% extends 'stark/master.html' %}
+
+{% block content %}
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <p><h4>是否确定删除？</h4></p>
+            <button type="submit" class="btn btn-success">确定</button>
+            <a href="{{ cancel_url }}" class="btn btn-default">取消</a>
+        </form>
+    </div>
+{% endblock %}

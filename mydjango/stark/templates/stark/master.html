@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>stark组件</title>
+    <link rel="stylesheet" href="/static/stark/bs/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/stark/css/home_site.css">
+    <script src="/static/stark/js/jquery-3.3.1.js"></script>
+    {% block css %}
+    
+    {% endblock %}
+</head>
+<body>
+<div class="header">
+    <div class="content">
+        <p class="title">
+            <span>stark组件</span>
+            <a href='#'>管理</a>
+            <a href="#">订阅</a>
+            {% block home_page %}
+
+            {% endblock %}
+        </p>
+
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-danger">
+                <div class="panel-heading">我的标签</div>
+                <div class="panel-body">
+                    111
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">随笔分类</div>
+                <div class="panel-body">
+                    222
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">随笔档案</div>
+                <div class="panel-body">
+                    333
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+             {% block content %}
+
+             {% endblock %}
+        </div>
+    </div>
+</div>
+{% block js %}
+
+{% endblock %}
+</body>
+</html>
